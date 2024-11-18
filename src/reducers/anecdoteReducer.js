@@ -8,11 +8,10 @@ const anecdoteSlice = createSlice({
   initialState: [],
   reducers: {
     makeVote(state, action) {
-      return state
-        .map((anecdote) =>
-          anecdote.id === action.payload.id ? action.payload : anecdote
-        )
-        .sort(decendingSorter);
+      const data = state.map((anecdote) =>
+        anecdote.id === action.payload.id ? action.payload : anecdote
+      );
+      return data.sort(decendingSorter);
     },
     appendAnecdote(state, action) {
       state.push(action.payload);
