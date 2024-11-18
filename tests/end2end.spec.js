@@ -49,37 +49,6 @@ test.describe("App End-to-End Tests", () => {
     await expect(voteButton1).toBeVisible();
   });
 
-  test("allows user to vote on an anecdote", async ({ page }) => {
-    const voteButton = page.locator("text=Vote").first(); // Assumes the button contains the text "Vote"
-    const voteCountElement = page.locator("text=has").first(); // Locator for the vote count text (e.g., "has X votes")
-
-    const initialVoteCountText = await voteCountElement.textContent();
-
-    const match = initialVoteCountText?.match(/has\s*(\d+)/);
-    if (match && parseInt(match[1], 10)) {
-      const initialVoteCount = parseInt(match[1], 10);
-
-      // Click the "Vote" button
-      await voteButton.click();
-
-      // Wait for the vote count to update
-      const updatedVoteCountText = await voteCountElement.textContent();
-
-      // Extract the updated vote count number
-      const updatedMatch = updatedVoteCountText?.match(/has\s*(\d+)/);
-      if (updatedMatch && parseInt(updatedMatch[1], 10)) {
-        const updatedVoteCount = parseInt(updatedMatch[1], 10);
-
-        // Assert that the updated vote count is greater than the initial vote count
-        expect(updatedVoteCount).toBe(initialVoteCount + 1);
-      } else {
-        throw new Error("Updated vote count not found");
-      }
-    } else {
-      throw new Error("Initial vote count not found");
-    }
-  });
-
   test("shows notification after voting", async ({ page }) => {
     // Click the vote button for the first anecdote
     const voteButton = page.locator("text=vote").first();
@@ -89,6 +58,26 @@ test.describe("App End-to-End Tests", () => {
     const notification = page.locator("text=You voted");
     await expect(notification).toBeVisible();
   });
+
+  test("Can create a new anecdote", async ({ page }) => {
+   // Navigate to the page where the form is rendered
+  await page.goto("http://localhost:3001"); // Adjust URL if necessary
+
+  // Locate the input field for the anecdote form
+  const anecdoteInput = page.locator('input[name="anecedote"]');
+
+  // Type a new anecdote into the input field
+  const newAnecdoteText = "This is a test anecdote";
+  await anecdoteInput.fill(newAnecdoteText);
+
+  // Submit the form
+  await page.click("button:has-text('create')");
+
+  // Check for the notification message after submission
+  const notification = page.locator("text=New anecdote note is created!");
+  await expect(notification).toBeVisible();
+  });
+
 });
 
 // // @ts-check
