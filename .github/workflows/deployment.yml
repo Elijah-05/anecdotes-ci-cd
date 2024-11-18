@@ -70,8 +70,10 @@ jobs:
     needs: [Trigger_deployment]
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && env.SKIP_DEPLOYMENT == 'false' }}
         uses: anothrNick/github-tag-action@1.71.0
