@@ -18,7 +18,7 @@ const App = () => {
   return (
     <div>
       <Filter />
-      <h2 style={{ color: "darkblue", fontSize: "1.2rem" }}>Anecdotes</h2>
+      <h2 style={{ color: "orange", fontSize: "1.2rem", textAlign: 'center' }}>Anecdotes</h2>
       <Notification />
       <AnecdoteList />
       <AnecdoteForm />
