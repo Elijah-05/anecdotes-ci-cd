@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm install && vite build",
     "start:dev": "nodemon app.js",
     "test": "playwright test",
     "test:report": "playwright show-report",
