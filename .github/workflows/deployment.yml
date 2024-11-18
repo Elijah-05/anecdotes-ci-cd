@@ -51,6 +51,7 @@ jobs:
           retention-days: 30
 
   Trigger_deployment:
+    needs: [Run_end_to_end_test]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
@@ -65,3 +66,14 @@ jobs:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
           multipleDeployment: false #optional, default true
+  tag_release:
+    needs: [Trigger_deployment]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && env.SKIP_DEPLOYMENT == 'false' }}
+        uses: anothrNick/github-tag-action@1.71.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
