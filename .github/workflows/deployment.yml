@@ -1,4 +1,4 @@
-name: Self Pipeline Deployment
+name: My Pipeline Deployment
 
 on: 
   push:
