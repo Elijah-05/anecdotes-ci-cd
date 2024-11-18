@@ -50,6 +50,28 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Cancelled
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: Test Cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
   Trigger_deployment:
     needs: [Run_end_to_end_test]
     runs-on: ubuntu-20.04
@@ -60,7 +82,7 @@ jobs:
           node-version: "20"
 
       - name: Trigger deployment
-        if: ${{ env.SKIP_DEPLOYMENT == 'false' }}
+        if: ${{ github.event_name == 'push' && env.SKIP_DEPLOYMENT == 'false' }}
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
