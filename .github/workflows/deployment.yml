@@ -1,0 +1,25 @@
+name: Self Pipeline Deployment
+
+on: 
+  push:
+    branches:
+      -main
+  pull_request:
+    branches: 
+      -main
+    types: [opened, synchronize]      
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  Check_job_is_running:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Heyy I am running
+        run: | 
+          echo "Hello, I am check job. Successfully runned"
+      - name: Not it is
+        run: |
+          date
+
+  
