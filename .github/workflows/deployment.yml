@@ -1,25 +1,21 @@
 name: My Pipeline Deployment
 
-on: 
+on:
   push:
     branches:
-      -main
+      - main
   pull_request:
-    branches: 
-      -main
-    types: [opened, synchronize]      
-  schedule:
-    - cron: "0 0 * * *"
+    branches:
+      - main
+    types: [opened, synchronize]
 
 jobs:
   Check_job_is_running:
     runs-on: ubuntu-20.04
     steps:
       - name: Heyy I am running
-        run: | 
+        run: |
           echo "Hello, I am check job. Successfully runned"
       - name: Not it is
         run: |
           date
-
-  
