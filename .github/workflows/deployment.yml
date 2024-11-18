@@ -60,7 +60,7 @@ jobs:
           node-version: "20"
 
       - name: Trigger deployment
-        if: ${{ env.SKIP_DEPLOYMENT == 'false' }}
+        if: ${{ github.event_name == 'push' && env.SKIP_DEPLOYMENT == 'false' }}
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
