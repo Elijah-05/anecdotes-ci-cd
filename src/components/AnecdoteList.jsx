@@ -25,7 +25,7 @@ const AnecdoteList = () => {
   return (
     <>
       {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
+        <div key={anecdote.id} style={{ border: "1px dashed gray" }}>
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}{" "}
